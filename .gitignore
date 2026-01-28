@@ -1,0 +1,56 @@
+.idea/
+
+# Logs
+front/logs
+front/*.log
+front/npm-debug.log*
+front/yarn-debug.log*
+front/yarn-error.log*
+front/pnpm-debug.log*
+front/lerna-debug.log*
+
+front/node_modules
+front/dist
+front/dist-ssr
+front/*.local
+
+# Editor directories and files
+front/.vscode/*
+front/.cursor/*
+front/!.vscode/extensions.json
+front/.idea
+front/.DS_Store
+front/*.suo
+front/*.ntvs*
+front/*.njsproj
+front/*.sln
+front/*.sw?
+
+# Compiled class file
+tech-equipment/*.class
+
+# Log file
+tech-equipment/*.log
+
+# BlueJ files
+tech-equipment/*.ctxt
+
+# Mobile Tools for Java (J2ME)
+tech-equipment/.mtj.tmp/
+
+# Package Files #
+tech-equipment/*.jar
+tech-equipment/*.war
+tech-equipment/*.nar
+tech-equipment/*.ear
+tech-equipment/*.zip
+tech-equipment/*.tar.gz
+tech-equipment/*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+tech-equipment/hs_err_pid*
+tech-equipment/replay_pid*
+/tech-equipment/.idea/
+tech-equipment/.cursor/
+tech-equipment/project_spec.md
+tech-equipment/target/

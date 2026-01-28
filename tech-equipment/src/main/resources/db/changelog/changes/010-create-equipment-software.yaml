@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: 010-create-equipment-software
+      author: system
+      changes:
+        - createTable:
+            tableName: equipment_software
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: equipment_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: license_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: installed_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uninstalled_at
+                  type: TIMESTAMP
+              - column:
+                  name: installed_by_user_id
+                  type: BIGINT
+              - column:
+                  name: notes
+                  type: TEXT
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_equipment_software_equipment_id
+            tableName: equipment_software
+            columns:
+              - column:
+                  name: equipment_id
+        - createIndex:
+            indexName: idx_equipment_software_license_id
+            tableName: equipment_software
+            columns:
+              - column:
+                  name: license_id
+        - addUniqueConstraint:
+            tableName: equipment_software
+            columnNames: equipment_id, license_id
+            constraintName: uk_equipment_software
+        - addForeignKeyConstraint:
+            baseTableName: equipment_software
+            baseColumnNames: equipment_id
+            constraintName: fk_equipment_software_equipment
+            referencedTableName: equipment
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: equipment_software
+            baseColumnNames: license_id
+            constraintName: fk_equipment_software_license
+            referencedTableName: software_licenses
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: equipment_software
+            baseColumnNames: installed_by_user_id
+            constraintName: fk_equipment_software_installed_by
+            referencedTableName: users
+            referencedColumnNames: id

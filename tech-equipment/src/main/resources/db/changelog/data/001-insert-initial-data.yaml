@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-insert-initial-data
+      author: system
+      changes:
+        - sql:
+            sql: |
+              INSERT INTO companies (name, description, active, created_at, updated_at)
+              VALUES ('Demo Company', 'Демонстрационная компания для тестирования системы', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+        - sql:
+            sql: |
+              INSERT INTO departments (company_id, name, description, active, created_at, updated_at)
+              VALUES 
+                ((SELECT id FROM companies WHERE name = 'Demo Company'), 'IT Department', 'IT отдел', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                ((SELECT id FROM companies WHERE name = 'Demo Company'), 'Development', 'Отдел разработки', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                ((SELECT id FROM companies WHERE name = 'Demo Company'), 'HR', 'Отдел кадров', true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+        - sql:
+            sql: |
+              INSERT INTO users (company_id, department_id, email, password_hash, full_name, role, status, created_at, updated_at)
+              VALUES 
+                ((SELECT id FROM companies WHERE name = 'Demo Company'), 
+                 (SELECT id FROM departments WHERE name = 'IT Department'),
+                 'admin@example.com', 
+                 '$2a$12$ZIZWRyJXqD/WxWIJ8tbixuleRt7/9vl6LtDNRkzui8Il238XDCxS2', 
+                 'Администратор Системы', 
+                 'ADMIN', 
+                 'ACTIVE', 
+                 CURRENT_TIMESTAMP, 
+                 CURRENT_TIMESTAMP),
+                ((SELECT id FROM companies WHERE name = 'Demo Company'), 
+                 (SELECT id FROM departments WHERE name = 'Development'),
+                 'employee@example.com', 
+                 '$2a$12$ZIZWRyJXqD/WxWIJ8tbixuleRt7/9vl6LtDNRkzui8Il238XDCxS2', 
+                 'Сотрудник Тестовый', 
+                 'EMPLOYEE', 
+                 'ACTIVE', 
+                 CURRENT_TIMESTAMP, 
+                 CURRENT_TIMESTAMP);
+        - sql:
+            sql: |
+              INSERT INTO equipment_categories (name, description, created_at)
+              VALUES 
+                ('Ноутбуки', 'Портативные компьютеры', CURRENT_TIMESTAMP),
+                ('Компьютеры', 'Стационарные компьютеры', CURRENT_TIMESTAMP),
+                ('Мониторы', 'Мониторы и дисплеи', CURRENT_TIMESTAMP),
+                ('Принтеры', 'Принтеры и МФУ', CURRENT_TIMESTAMP),
+                ('Другое', 'Прочая техника', CURRENT_TIMESTAMP);
+        - sql:
+            sql: |
+              INSERT INTO equipment (company_id, category_id, serial_number, inventory_number, manufacturer, model, status, condition_status, created_at, updated_at)
+              VALUES 
+                ((SELECT id FROM companies WHERE name = 'Demo Company'),
+                 (SELECT id FROM equipment_categories WHERE name = 'Ноутбуки'),
+                 'LAP001', 'INV-001', 'Dell', 'Latitude 5520', 'AVAILABLE', 'GOOD', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                ((SELECT id FROM companies WHERE name = 'Demo Company'),
+                 (SELECT id FROM equipment_categories WHERE name = 'Компьютеры'),
+                 'PC001', 'INV-002', 'HP', 'EliteDesk 800', 'IN_USE', 'EXCELLENT', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                ((SELECT id FROM companies WHERE name = 'Demo Company'),
+                 (SELECT id FROM equipment_categories WHERE name = 'Мониторы'),
+                 'MON001', 'INV-003', 'LG', '27UL850', 'AVAILABLE', 'GOOD', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

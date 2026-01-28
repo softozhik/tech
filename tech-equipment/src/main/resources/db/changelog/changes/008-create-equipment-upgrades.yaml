@@ -1,0 +1,81 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008-create-equipment-upgrades
+      author: system
+      changes:
+        - createTable:
+            tableName: equipment_upgrades
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: equipment_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: upgrade_type
+                  type: VARCHAR(50)
+              - column:
+                  name: component_name
+                  type: VARCHAR(255)
+              - column:
+                  name: old_value
+                  type: VARCHAR(255)
+              - column:
+                  name: new_value
+                  type: VARCHAR(255)
+              - column:
+                  name: cost
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: upgraded_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: performed_by_user_id
+                  type: BIGINT
+              - column:
+                  name: notes
+                  type: TEXT
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_upgrade_equipment_id
+            tableName: equipment_upgrades
+            columns:
+              - column:
+                  name: equipment_id
+        - addForeignKeyConstraint:
+            baseTableName: equipment_upgrades
+            baseColumnNames: equipment_id
+            constraintName: fk_upgrade_equipment
+            referencedTableName: equipment
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            baseTableName: equipment_upgrades
+            baseColumnNames: performed_by_user_id
+            constraintName: fk_upgrade_performed_by
+            referencedTableName: users
+            referencedColumnNames: id

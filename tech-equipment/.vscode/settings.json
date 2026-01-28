@@ -1,0 +1,10 @@
+{
+    "java.home": "/home/yozhik/.sdkman/candidates/java/17.0.12-oracle",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17",
+            "path": "/home/yozhik/.sdkman/candidates/java/17.0.12-oracle",
+            "default": true
+        }
+    ]
+}

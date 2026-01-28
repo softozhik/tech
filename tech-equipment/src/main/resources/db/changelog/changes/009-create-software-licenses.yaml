@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-create-software-licenses
+      author: system
+      changes:
+        - createTable:
+            tableName: software_licenses
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: company_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: software_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: software_vendor
+                  type: VARCHAR(255)
+              - column:
+                  name: version
+                  type: VARCHAR(100)
+              - column:
+                  name: license_key
+                  type: VARCHAR(500)
+              - column:
+                  name: license_type
+                  type: VARCHAR(50)
+              - column:
+                  name: purchase_date
+                  type: DATE
+              - column:
+                  name: purchase_price
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: expiry_date
+                  type: DATE
+              - column:
+                  name: seats_total
+                  type: INT
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+              - column:
+                  name: seats_used
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: auto_renewal
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  defaultValue: ACTIVE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: notes
+                  type: TEXT
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_license_company_id
+            tableName: software_licenses
+            columns:
+              - column:
+                  name: company_id
+        - createIndex:
+            indexName: idx_license_expiry_date
+            tableName: software_licenses
+            columns:
+              - column:
+                  name: expiry_date
+        - addForeignKeyConstraint:
+            baseTableName: software_licenses
+            baseColumnNames: company_id
+            constraintName: fk_license_company
+            referencedTableName: companies
+            referencedColumnNames: id
